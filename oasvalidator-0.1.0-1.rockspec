@@ -2,7 +2,7 @@ package = "oasvalidator"
 version = "0.1.0-1"
 local v = version:gsub("%-%d", "")
 source = {
-  url = "git://github.com/xpol/lua-rapidjson",
+  url = "git://github.com/xpol/lua-rapidjson1",
   tag = "v"..v
 }
 description = {

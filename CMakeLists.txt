@@ -56,16 +56,14 @@ if (NOT RAPIDJSON_INCLUDE_DIRS)
 endif()
 
 include_directories(${LUA_INCLUDE_DIR} ${RAPIDJSON_INCLUDE_DIRS})
+include_directories(${LUA_INCLUDE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
 
 set(SOURCES
     src/Document.cpp
     src/Schema.cpp
-    src/Userdata.hpp
-    src/file.hpp
-    src/luax.hpp
     src/rapidjson.cpp
     src/values.cpp
-    src/values.hpp
         src/OASValidator.cpp
         src/LUA_OASValidator.cpp
         src/json_parser.cpp
