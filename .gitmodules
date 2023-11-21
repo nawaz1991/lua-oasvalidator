@@ -1,0 +1,3 @@
+[submodule "cpp-oasvalidator"]
+	path = cpp-oasvalidator
+	url = https://github.com/nawaz1991/cpp-oasvalidator.git
