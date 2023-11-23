@@ -42,7 +42,7 @@ jobs:
           luarocks make CFLAGS="-O2 -fPIC -ftest-coverage -fprofile-arcs" LIBFLAG="${{ matrix.libflag }}"
 
       - name: Test
-        run: busted
+        run: busted --coverage
 
       - name: Coverage
         run: |

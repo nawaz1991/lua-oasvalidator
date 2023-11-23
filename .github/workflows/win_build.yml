@@ -1,0 +1,35 @@
+name: win Build
+
+on:
+  push:
+    branches:
+      - main
+      - '**'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1.5"
+
+      - uses: leafo/gh-actions-luarocks@v4
+
+      - name: Install dependencies
+        run: |
+          choco install cmake
+          choco install mingw
+
+      - name: Build using luarocks
+        run: luarocks make
+
+      - name: Run example
+        run: lua example/example.lua
