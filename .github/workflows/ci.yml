@@ -32,8 +32,7 @@ jobs:
           luarocks install lua-path 
           luarocks install dkjson
           luarocks install luacov
-          # install luacov-coveralls, but avoid installing luafilesystem
-          luarocks install luacov-coveralls --server=https://luarocks.org/dev --deps-mode=none
+          luarocks install luacov-coveralls 
 
       - name: Build
         run: |
