@@ -20,14 +20,16 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - uses: leafo/gh-actions-lua@v8.0.0
+      - uses: leafo/gh-actions-lua@v10
         with:
-          luaVersion: ${{ matrix.lua-version }}
+          luaVersion: "5.1.5"
 
-      - uses: leafo/gh-actions-luarocks@master
+      - uses: leafo/gh-actions-luarocks@v4
 
       - name: Prep
         run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc g++ cmake
           pip install --user cpp-coveralls
           luarocks install lua-path 
           luarocks install cjson
