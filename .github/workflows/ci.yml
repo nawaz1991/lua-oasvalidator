@@ -30,7 +30,7 @@ jobs:
         run: |
           pip install --user cpp-coveralls
           luarocks install lua-path 
-          luarocks install dkjson
+          luarocks install cjson
           luarocks install busted
           luarocks install luacov
           luarocks install luacov-coveralls 
