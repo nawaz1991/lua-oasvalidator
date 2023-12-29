@@ -1,4 +1,4 @@
-name: win Build
+name: winlu Build
 
 on:
   push:
