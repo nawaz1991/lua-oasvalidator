@@ -143,4 +143,4 @@ For a detailed breakdown of each API, refer to the [API Reference](API.md).
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for the full license text.
 
-© 2023 [Muhammad Nawaz](mailto:m.nawaz2003@gmail.com). All Rights Reserved.
+© 2024 [Muhammad Nawaz](mailto:m.nawaz2003@gmail.com). All Rights Reserved.
