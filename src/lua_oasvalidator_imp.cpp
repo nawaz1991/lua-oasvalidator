@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2023 Muhammad Nawaz
+ * Copyright (c) 2024 Muhammad Nawaz
  * Licensed under the MIT License. See LICENSE file for more information.
  */
+// [ END OF LICENSE c6bd0f49d040fca8d8a9cb05868e66aa63f0e2e0 ]
 
 #include "lua_oasvalidator_imp.hpp"
 
@@ -26,14 +27,42 @@ static inline void LuaTableToUnorderedMap(lua_State* L, int index, std::unordere
     }
 }
 
+// Helper function to convert Lua table to C++ unordered_map with unordered_set as values
+static inline void LuaTableToUnorderedMapSet(lua_State* L, int index, std::unordered_map<std::string, std::unordered_set<std::string>>& headers) {
+    lua_pushnil(L);  // First key
+    while (lua_next(L, index) != 0) {
+        const char* key = luaL_checkstring(L, -2);
+        luaL_checktype(L, -1, LUA_TTABLE);  // Ensure the value is a table
+
+        std::unordered_set<std::string> values;
+        int subtable_index = lua_gettop(L);
+
+        lua_pushnil(L);  // First element of the subtable
+        while (lua_next(L, subtable_index) != 0) {
+            const char* value = luaL_checkstring(L, -1);
+            values.insert(value);
+            lua_pop(L, 1);
+        }
+
+        headers.emplace(key, values);
+        lua_pop(L, 1);  // Remove the value, keep the key for the next iteration
+    }
+}
+
 int lua_GetValidators(lua_State* L)
 {
+    int num_args = lua_gettop(L);
     try {
         const char* oas_specs = luaL_checkstring(L, 1);
-        auto* oas_validators_imp = new OASValidatorImp(oas_specs);
+        std::unordered_map<std::string, std::unordered_set<std::string>> method_map = {};
+        if (num_args == 2) {
+            LuaTableToUnorderedMapSet(L, 2, method_map);
+        }
+        auto* oas_validators_imp = new OASValidatorImp(oas_specs, method_map);
         if (oas_validators_imp) {
             OASValidatorImp** ud = reinterpret_cast<OASValidatorImp**>(lua_newuserdata(L, sizeof(*ud)));
             if (!ud) {
+                delete oas_validators_imp;
                 luaL_error(L, "Out of memory");
             }
             *ud = oas_validators_imp;
@@ -179,6 +208,7 @@ int lua_ValidateRequest(lua_State* L)
     } else {
         err_code = oas_validator_imp->ValidateRequest(method, http_path, error_msg);
     }
+
     lua_pushinteger(L, static_cast<lua_Integer>(err_code));
     if (ValidationError::NONE == err_code) {
         return 1;

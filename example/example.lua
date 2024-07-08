@@ -1,14 +1,29 @@
+--[[
+  Copyright (c) 2024 Muhammad Nawaz
+  Licensed under the MIT License. See LICENSE file for more information.
+--]]
+
 oasvalidator = require("oasvalidator")
 
 print(oasvalidator._VERSION)
-validators, err = oasvalidator.GetValidators("data/openAPI_example.json")
-print(err)
+
+http_method_mappings = {
+    HEAD = { "GET" } -- Treat `HEAD` requests as `GET` requests, if `HEAD` method is not defined for the path
+}
+
+validators, err = oasvalidator.GetValidators("data/openAPI_example.json", http_method_mappings)
+
 err_code, err_msg = validators:ValidateRoute("GETT", "/test/dummy")
 if (err_code ~= 0) then
     print(err_msg)
 end
 
 err_code, err_msg = validators:ValidateRoute("GET", "/test/dummy")
+if err_code ~= 0 then
+    print(err_msg)
+end
+
+err_code, err_msg = validators:ValidateRoute("head", "/test/dummy") -- lower case head
 if err_code ~= 0 then
     print(err_msg)
 end
@@ -24,6 +39,11 @@ if err_code ~= 0 then
 end
 
 err_code, err_msg = validators:ValidateQueryParam("GET", "/test/query_integer_form_true?param=not_an_integer")
+if err_code ~= 0 then
+    print(err_msg)
+end
+
+err_code, err_msg = validators:ValidateQueryParam("HEAD", "/test/query_integer_form_true?param=not_an_integer") -- upper case head
 if err_code ~= 0 then
     print(err_msg)
 end
