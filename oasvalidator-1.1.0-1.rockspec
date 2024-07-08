@@ -26,5 +26,11 @@ build = {
   },
   platforms = { windows = { variables = {
     LUA_LIBRARIES = "$(LUA_LIBDIR)/$(LUALIB)"
-  }}}
+  }}},
+  documentation = {
+    files = {
+      "README.md",
+      "API.md"
+    }
+  }
 }
