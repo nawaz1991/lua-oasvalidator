@@ -1,4 +1,12 @@
-# lua-oasvalidator: REST Request Validator
+lua-oasvalidator: REST Request Validator
+========================================
+
+[![Language Lua](https://img.shields.io/badge/language-Lua-blue.svg?logo=Lua)](https://www.lua.org)
+[![Github releases](https://img.shields.io/github/release/nawaz1991/lua-oasvalidator.svg)](https://github.com/nawaz1991/lua-oasvalidator/releases)
+![Mac build](https://img.shields.io/github/actions/workflow/status/nawaz1991/lua-oasvalidator/mac-build.yml?logo=apple&label=Tests)
+![Linux build](https://img.shields.io/github/actions/workflow/status/nawaz1991/lua-oasvalidator/linux-build.yml?logo=linux&label=Tests)
+[![License](https://img.shields.io/github/license/nawaz1991/cpp-oasvalidator.svg)](./LICENSE)
+[![API Docs](https://img.shields.io/badge/API%20Docs-v1.1.0-brightgreen)](API.md)
 
 `lua-oasvalidator` is a Lua binding for the [cpp-oasvalidator](https://github.com/nawaz1991/cpp-oasvalidator) library, designed for the validation of HTTP requests against OpenAPI 3.x specifications. By integrating this module with your Lua-based REST servers or API gateways, you can ensure that only compliant requests interact with your backend services.
 

@@ -57,7 +57,6 @@ Initializes an `OASValidator` object with the OpenAPI specification from the pro
 #### Synopsis
 
 ```lua
-
 local validators = oasvalidator.GetValidators(spec_path, method_map)
 ```
 
