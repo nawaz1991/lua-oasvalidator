@@ -1,0 +1,52 @@
+name: Common build and test steps
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      lua-version:
+        required: true
+        type: string
+
+jobs:
+  build-and-test:
+    runs-on: ${{ inputs.os }}
+
+    steps:
+      - name: Checkout lua-oasvalidator
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - uses: lukka/get-cmake@latest
+
+      - name: Setup Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: ${{ inputs.lua-version }}
+
+      - name: Setup LuaRocks
+        uses: hishamhm/gh-actions-luarocks@master
+        with:
+          luarocksVersion: 3.11.0
+
+      - name: Install Busted and dependencies
+        run: |
+          luarocks install busted
+          luarocks install lua-cjson
+          luarocks install luasocket
+
+      - name: Build using luarocks
+        run: luarocks make
+
+      - name: Run tests
+        run: busted
+
+      - name: Run example
+        run: lua example/example.lua
+
+      - name: Run perf
+        run: lua perf/perf.lua

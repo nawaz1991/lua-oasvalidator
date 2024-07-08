@@ -57,20 +57,28 @@ Initializes an `OASValidator` object with the OpenAPI specification from the pro
 #### Synopsis
 
 ```lua
-
-local validators = oasvalidator.GetValidators(spec_path)
+local validators = oasvalidator.GetValidators(spec_path, method_map)
 ```
 
 #### Arguments
 
 - `spec_path`: The file path to the OpenAPI specification in `JSON` format as a Lua `string`.
+- `method_map`: An optional table where each key is an HTTP method and the value is a table/list of methods that can be treated as the key method. This allows certain HTTP methods to be treated as others.
 
 #### Example
 
 ```lua
 local oasvalidator = require("oasvalidator")
-local validators = oasvalidator.GetValidators("/path/to/openapi/spec.json")
+
+method_map = {
+  HEAD = { "GET" }, -- Treat `HEAD` requests as `GET` requests, if `HEAD` method is not defined for the path
+  OPTIONS= {"GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"} -- `OPTIONS` will be treated as other methods, of they are not defined for the path
+}
+local validators = oasvalidator.GetValidators("/path/to/openapi/spec.json", method_map) -- method_map is optional
 ```
+#### Note
+
+The OAS specification can be provided as a file path or as a JSON string. If the `method_map` is provided, it allows certain HTTP methods to be treated as others. For instance, with the mapping `HEAD = { "GET" }`, a HEAD request can be validated as the GET request, if HEAD method is not defined for the path.
 
 #### Returns
 

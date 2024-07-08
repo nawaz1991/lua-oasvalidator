@@ -1,5 +1,5 @@
 package = "oasvalidator"
-version = "1.0.0-1"
+version = "1.1.0-1"
 local v = version:gsub("%-%d", "")
 source = {
   url = "git://github.com/nawaz1991/lua-oasvalidator",
@@ -26,5 +26,11 @@ build = {
   },
   platforms = { windows = { variables = {
     LUA_LIBRARIES = "$(LUA_LIBDIR)/$(LUALIB)"
-  }}}
+  }}},
+  documentation = {
+    files = {
+      "README.md",
+      "API.md"
+    }
+  }
 }

@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2023 Muhammad Nawaz
+ * Copyright (c) 2024 Muhammad Nawaz
  * Licensed under the MIT License. See LICENSE file for more information.
  */
+// [ END OF LICENSE c6bd0f49d040fca8d8a9cb05868e66aa63f0e2e0 ]
 
 #ifndef LUA_OAS_VALIDATOR
 #define LUA_OAS_VALIDATOR
@@ -39,4 +40,4 @@ int lua_ValidateHeaders(lua_State* L);
 // LUA <-> C++ binding for OASValidatorImp::ValidateRequest (4 overloaded methods)
 int lua_ValidateRequest(lua_State* L);
 
-#endif
+#endif // LUA_OAS_VALIDATOR

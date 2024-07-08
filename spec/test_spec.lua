@@ -1,3 +1,8 @@
+--[[
+  Copyright (c) 2024 Muhammad Nawaz
+  Licensed under the MIT License. See LICENSE file for more information.
+--]]
+
 describe("Test", function()
     local cjson = require("cjson")
     local ErrorCodes = {
