@@ -1,0 +1,46 @@
+name: Nightly Lua Package Test
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs at midnight every day
+  workflow_dispatch:
+
+jobs:
+  test-lua:
+    name: Test Lua Versions
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        lua-version: [ "5.1", "5.2", "5.3", "5.4", "luajit" ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Lua
+        uses: leafo/gh-actions-lua@v8
+        with:
+          lua-version: ${{ matrix.lua-version }}
+
+      - name: Install LuaRocks
+        run: |
+          wget https://luarocks.org/releases/luarocks-3.8.0.tar.gz
+          tar zxpf luarocks-3.8.0.tar.gz
+          cd luarocks-3.8.0
+          ./configure
+          make build
+          sudo make install
+
+      - name: Install oasvalidator
+        run: |
+          luarocks install oasvalidator
+
+      - name: Verify oasvalidator Installation
+        run: |
+          lua -e "require('oasvalidator')"
+        shell: bash
+
+      - name: Clean up
+        run: |
+          luarocks remove oasvalidator
