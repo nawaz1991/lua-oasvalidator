@@ -56,6 +56,7 @@ int lua_GetValidators(lua_State* L)
         const char* oas_specs = luaL_checkstring(L, 1);
         std::unordered_map<std::string, std::unordered_set<std::string>> method_map = {};
         if (num_args == 2) {
+            luaL_checktype(L, 2, LUA_TTABLE);
             LuaTableToUnorderedMapSet(L, 2, method_map);
         }
         auto* oas_validators_imp = new OASValidatorImp(oas_specs, method_map);
@@ -63,20 +64,30 @@ int lua_GetValidators(lua_State* L)
             OASValidatorImp** ud = reinterpret_cast<OASValidatorImp**>(lua_newuserdata(L, sizeof(*ud)));
             if (!ud) {
                 delete oas_validators_imp;
-                luaL_error(L, "Out of memory");
+                lua_pushnil(L);
+                lua_pushliteral(L, "Out of memory");
+                return 2;
             }
             *ud = oas_validators_imp;
             luaL_getmetatable(L, METATABLE_NAME);
             lua_setmetatable(L, -2);
+            lua_pushnil(L);
+            return 2;
 
         } else {
             lua_pushnil(L);
+            lua_pushliteral(L, "Failed to create validators");
+            return 2;
         }
     } catch (const ValidatorInitExc& ex) {
         lua_pushnil(L);
-        luaL_error(L, ex.what());
+        lua_pushstring(L, ex.what());
+        return 2;
+    } catch (const std::exception& ex) {
+        lua_pushnil(L);
+        lua_pushstring(L, ex.what());
+        return 2;
     }
-    return 1;
 }
 
 int metamethod_gc(lua_State* L)
